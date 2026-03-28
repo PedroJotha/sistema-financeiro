@@ -35,7 +35,7 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 ```bash
 # Clone o repositório
-git clone https://github.com/seu-usuario/sistema-financeiro.git
+git clone https://github.com/PedroJotha/sistema-financeiro.git
 
 # Entre na pasta do projeto
 cd sistema-financeiro
@@ -83,9 +83,9 @@ O servidor vai rodar em: `http://localhost:3000`
 
 ## 👨‍💻 Autor
 
-Feito por **[Pedro Jotha]**
+Feito por **Pedro Jotha**
 
-[![GitHub](https://img.shields.io/badge/GitHub-seu--usuario-181717?style=flat&logo=github)](https://github.com/seu-usuario)
+[![GitHub](https://img.shields.io/badge/GitHub-PedroJotha-181717?style=flat&logo=github)](https://github.com/PedroJotha)
 
 ---
 
