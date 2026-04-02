@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FluxoCaixa — Sistema Financeiro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #2a2a3a;
+      --accent: #00e5a0;
+      --accent2: #7c5cfc;
+      --red: #ff4d6d;
+      --text: #e8e8f0;
+      --muted: #6b6b8a;
+      --card-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 10;
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(10px);
+      background: rgba(10,10,15,0.8);
+    }
+
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .logo-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--accent);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 32px;
+      width: fit-content;
+    }
+
+    .tab {
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      background: var(--surface2);
+      color: var(--accent);
+      border: 1px solid var(--border);
+    }
+
+    .tab:hover:not(.active) { color: var(--text); }
+
+    /* Panels */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title .icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .icon-green { background: rgba(0,229,160,0.1); }
+    .icon-purple { background: rgba(124,92,252,0.1); }
+    .icon-red { background: rgba(255,77,109,0.1); }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-grid.single { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+    }
+
+    input, select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,229,160,0.1);
+    }
+
+    select option { background: var(--surface2); }
+
+    .btn {
+      padding: 13px 24px;
+      border-radius: 8px;
+      border: none;
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #00ffb3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0,229,160,0.3);
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Saldo card */
+    .saldo-display {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .saldo-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .saldo-valor {
+      font-family: 'Syne', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      letter-spacing: -2px;
+    }
+
+    .saldo-positivo { color: var(--accent); }
+    .saldo-negativo { color: var(--red); }
+
+    /* Lista */
+    .lista {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .item:hover { border-color: var(--accent); }
+
+    .item-info { display: flex; flex-direction: column; gap: 3px; }
+    .item-nome { font-size: 14px; color: var(--text); }
+    .item-sub { font-size: 11px; color: var(--muted); }
+
+    .item-valor {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .entrada { color: var(--accent); }
+    .saida { color: var(--red); }
+
+    /* Tag */
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .tag-entrada { background: rgba(0,229,160,0.1); color: var(--accent); }
+    .tag-saida { background: rgba(255,77,109,0.1); color: var(--red); }
+
+    /* Alert */
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .alert.show { display: block; animation: fadeIn 0.3s; }
+    .alert-success { background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.3); color: var(--accent); }
+    .alert-error { background: rgba(255,77,109,0.1); border: 1px solid rgba(255,77,109,0.3); color: var(--red); }
+
+    /* Empty state */
+    .empty {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    @media (max-width: 700px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .grid2 { grid-template-columns: 1fr; }
+      header { padding: 16px 20px; }
+      .container { padding: 24px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-dot"></div>
+  <div class="logo">Fluxo<span>Caixa</span></div>
+</header>
+
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('usuarios')">Usuários</button>
+    <button class="tab" onclick="showTab('transacoes')">Transações</button>
+    <button class="tab" onclick="showTab('saldo')">Saldo</button>
+  </div>
+
+  <!-- PAINEL USUÁRIOS -->
+  <div class="panel active" id="panel-usuarios">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">
+          <div class="icon icon-green">👤</div>
+          Cadastrar Usuário
+        </div>
+        <div class="form-grid single">
+          <div class="field">
+            <label>Nome</label>
+            <input type="text" id="u-nome" placeholder="João Silva" />
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" id="u-email" placeholder="joao@email.com" />
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="cadastrarUsuario()">Cadastrar</button>
+        <div class="alert" id="alert-usuario"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="icon icon-purple">📋</div>
+          Usuários Cadastrados
+        </div>
+        <div class="lista" id="lista-usuarios">
+          <div class="empty">Nenhum usuário ainda</div>
+        </div>
+        <button class="btn btn-secondary" onclick="listarUsuarios()" style="margin-top:16px">Atualizar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL TRANSAÇÕES -->
+  <div class="panel" id="panel-transacoes">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">
+          <div class="icon icon-green">💸</div>
+          Nova Transação
+        </div>
+        <div class="form-grid single">
+          <div class="field">
+            <label>ID do Usuário</label>
+            <input type="number" id="t-userid" placeholder="1" />
+          </div>
+          <div class="field">
+            <label>Tipo</label>
+            <select id="t-tipo">
+              <option value="entrada">Entrada</option>
+              <option value="saida">Saída</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Descrição</label>
+            <input type="text" id="t-descricao" placeholder="Salário, aluguel..." />
+          </div>
+          <div class="field">
+            <label>Valor (R$)</label>
+            <input type="number" id="t-valor" placeholder="0.00" step="0.01" />
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="cadastrarTransacao()">Adicionar</button>
+        <div class="alert" id="alert-transacao"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <div class="icon icon-purple">📊</div>
+          Ver Transações
+        </div>
+        <div class="field">
+          <label>ID do Usuário</label>
+          <input type="number" id="t-busca-userid" placeholder="1" />
+        </div>
+        <button class="btn btn-secondary" onclick="listarTransacoes()">Buscar</button>
+        <div class="lista" id="lista-transacoes" style="margin-top:16px">
+          <div class="empty">Busque as transações de um usuário</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAINEL SALDO -->
+  <div class="panel" id="panel-saldo">
+    <div class="card" style="max-width:480px;margin:0 auto">
+      <div class="card-title">
+        <div class="icon icon-green">💰</div>
+        Consultar Saldo
+      </div>
+      <div class="field">
+        <label>ID do Usuário</label>
+        <input type="number" id="s-userid" placeholder="1" />
+      </div>
+      <button class="btn btn-primary" onclick="consultarSaldo()">Consultar</button>
+      <div class="saldo-display" id="saldo-display" style="display:none">
+        <div class="saldo-label">Saldo Atual</div>
+        <div class="saldo-valor" id="saldo-valor">R$ 0,00</div>
+      </div>
+      <div class="alert" id="alert-saldo"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const API = 'http://localhost:3000';
+
+  function showTab(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    event.target.classList.add('active');
+    if (name === 'usuarios') listarUsuarios();
+  }
+
+  function showAlert(id, msg, type) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.className = `alert alert-${type} show`;
+    setTimeout(() => el.classList.remove('show'), 3000);
+  }
+
+  async function cadastrarUsuario() {
+    const nome = document.getElementById('u-nome').value.trim();
+    const email = document.getElementById('u-email').value.trim();
+    if (!nome || !email) return showAlert('alert-usuario', 'Preencha nome e email.', 'error');
+    try {
+      const res = await fetch(`${API}/usuarios`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, email })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAlert('alert-usuario', `Usuário #${data.id} cadastrado!`, 'success');
+        document.getElementById('u-nome').value = '';
+        document.getElementById('u-email').value = '';
+        listarUsuarios();
+      } else {
+        showAlert('alert-usuario', data.erro || 'Erro ao cadastrar.', 'error');
+      }
+    } catch {
+      showAlert('alert-usuario', 'Servidor offline. Rode node server.js', 'error');
+    }
+  }
+
+  async function listarUsuarios() {
+    try {
+      const res = await fetch(`${API}/usuarios`);
+      const data = await res.json();
+      const lista = document.getElementById('lista-usuarios');
+      if (!data.length) {
+        lista.innerHTML = '<div class="empty">Nenhum usuário ainda</div>';
+        return;
+      }
+      lista.innerHTML = data.map(u => `
+        <div class="item">
+          <div class="item-info">
+            <span class="item-nome">${u.nome}</span>
+            <span class="item-sub">${u.email}</span>
+          </div>
+          <span class="tag tag-entrada">#${u.id}</span>
+        </div>
+      `).join('');
+    } catch {
+      document.getElementById('lista-usuarios').innerHTML = '<div class="empty">Servidor offline</div>';
+    }
+  }
+
+  async function cadastrarTransacao() {
+    const usuario_id = document.getElementById('t-userid').value;
+    const tipo = document.getElementById('t-tipo').value;
+    const descricao = document.getElementById('t-descricao').value.trim();
+    const valor = document.getElementById('t-valor').value;
+    if (!usuario_id || !descricao || !valor) return showAlert('alert-transacao', 'Preencha todos os campos.', 'error');
+    try {
+      const res = await fetch(`${API}/usuarios/${usuario_id}/transacoes`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tipo, descricao, valor: parseFloat(valor) })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        showAlert('alert-transacao', 'Transação adicionada!', 'success');
+        document.getElementById('t-descricao').value = '';
+        document.getElementById('t-valor').value = '';
+      } else {
+        showAlert('alert-transacao', data.erro || 'Erro.', 'error');
+      }
+    } catch {
+      showAlert('alert-transacao', 'Servidor offline.', 'error');
+    }
+  }
+
+  async function listarTransacoes() {
+    const id = document.getElementById('t-busca-userid').value;
+    if (!id) return;
+    try {
+      const res = await fetch(`${API}/usuarios/${id}/transacoes`);
+      const data = await res.json();
+      const lista = document.getElementById('lista-transacoes');
+      if (!data.length) {
+        lista.innerHTML = '<div class="empty">Nenhuma transação</div>';
+        return;
+      }
+      lista.innerHTML = data.map(t => `
+        <div class="item">
+          <div class="item-info">
+            <span class="item-nome">${t.descricao}</span>
+            <span class="item-sub">${t.data}</span>
+          </div>
+          <div style="text-align:right">
+            <div class="item-valor ${t.tipo}">${t.tipo === 'entrada' ? '+' : '-'} R$ ${parseFloat(t.valor).toFixed(2)}</div>
+            <span class="tag tag-${t.tipo}">${t.tipo}</span>
+          </div>
+        </div>
+      `).join('');
+    } catch {
+      document.getElementById('lista-transacoes').innerHTML = '<div class="empty">Servidor offline</div>';
+    }
+  }
+
+  async function consultarSaldo() {
+    const id = document.getElementById('s-userid').value;
+    if (!id) return showAlert('alert-saldo', 'Digite o ID do usuário.', 'error');
+    try {
+      const res = await fetch(`${API}/usuarios/${id}/saldo`);
+      const data = await res.json();
+      if (res.ok) {
+        const display = document.getElementById('saldo-display');
+        const valor = document.getElementById('saldo-valor');
+        display.style.display = 'block';
+        valor.textContent = `R$ ${parseFloat(data.saldo).toFixed(2).replace('.', ',')}`;
+        valor.className = `saldo-valor ${data.saldo >= 0 ? 'saldo-positivo' : 'saldo-negativo'}`;
+      } else {
+        showAlert('alert-saldo', 'Usuário não encontrado.', 'error');
+      }
+    } catch {
+      showAlert('alert-saldo', 'Servidor offline.', 'error');
+    }
+  }
+
+  listarUsuarios();
+</script>
+</body>
+</html>
