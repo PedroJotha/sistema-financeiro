@@ -8,6 +8,8 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
+- [SQLite](https://www.sqlite.org/) *(banco de dados)*
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 - [Nodemon](https://nodemon.io/) *(desenvolvimento)*
 - [dotenv](https://github.com/motdotla/dotenv)
 - [cors](https://github.com/expressjs/cors)
@@ -18,9 +20,12 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 - [x] Cadastro de usuários
 - [x] Listagem de usuários
+- [x] Transações financeiras (entrada e saída)
+- [x] Consulta de saldo por usuário
+- [x] Interface web (HTML/CSS/JS)
+- [x] Banco de dados SQLite
 - [ ] Autenticação (em breve)
-- [ ] Transações financeiras (em breve)
-- [ ] Relatório de saldo (em breve)
+- [ ] Relatórios (em breve)
 
 ---
 
@@ -49,6 +54,8 @@ node server.js
 
 O servidor vai rodar em: `http://localhost:3000`
 
+Abra o arquivo `index.html` no navegador para acessar a interface.
+
 ---
 
 ## 📡 Endpoints da API
@@ -59,6 +66,14 @@ O servidor vai rodar em: `http://localhost:3000`
 |--------|-------------|--------------------------|
 | GET    | /usuarios   | Lista todos os usuários  |
 | POST   | /usuarios   | Cadastra um novo usuário |
+
+### Transações
+
+| Método | Rota                        | Descrição                        |
+|--------|-----------------------------|----------------------------------|
+| POST   | /usuarios/:id/transacoes    | Adiciona uma transação           |
+| GET    | /usuarios/:id/transacoes    | Lista transações do usuário      |
+| GET    | /usuarios/:id/saldo         | Retorna o saldo atual do usuário |
 
 ### Exemplo de requisição POST `/usuarios`
 
