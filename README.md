@@ -6,13 +6,14 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 ## 🚀 Tecnologias
 
+- [Nodemon](https://nodemon.io/) 
 - [Node.js](https://nodejs.org/)
 - [Express](https://expressjs.com/)
-- [SQLite](https://www.sqlite.org/) *(banco de dados)*
-- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
-- [Nodemon](https://nodemon.io/) *(desenvolvimento)*
-- [dotenv](https://github.com/motdotla/dotenv)
+- [SQLite](https://www.sqlite.org/) 
 - [cors](https://github.com/expressjs/cors)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
+
 
 ---
 
@@ -20,12 +21,11 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 - [x] Cadastro de usuários
 - [x] Listagem de usuários
-- [x] Transações financeiras (entrada e saída)
-- [x] Consulta de saldo por usuário
-- [x] Interface web (HTML/CSS/JS)
 - [x] Banco de dados SQLite
-- [ ] Autenticação (em breve)
-- [ ] Relatórios (em breve)
+- [x] Interface web (HTML/CSS/JS)
+- [x] Consulta de saldo por usuário
+- [x] Transações financeiras (entrada e saída)
+
 
 ---
 
