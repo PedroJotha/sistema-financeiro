@@ -8,10 +8,10 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 - [cors](https://github.com/expressjs/cors) 
 - [SQLite](https://www.sqlite.org/) 
-- [dotenv](https://github.com/motdotla/dotenv) 
-- [Nodemon](https://nodemon.io/) 
+- [dotenv](https://github.com/motdotla/dotenv)  
 - [Node.js](https://nodejs.org/) 
 - [Express](https://expressjs.com/) 
+- [Nodemon](https://nodemon.io/) 
 - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) 
 
 
