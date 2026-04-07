@@ -1,10 +1,10 @@
-# 💰 Sistema Financeiro — API REST
+# Sistema Financeiro — API REST
 
 API RESTful para gerenciamento financeiro de usuários, construída com **Node.js** e **Express**.
 
 ---
 
-## 🚀 Tecnologias
+# Tecnologias
 
 - [cors](https://github.com/expressjs/cors) 
 - [SQLite](https://www.sqlite.org/) 
@@ -17,7 +17,7 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 ---
 
-## 📋 Funcionalidades
+# Funcionalidades
 
 - [x] Cadastro de usuários
 - [x] Listagem de usuários
@@ -29,14 +29,14 @@ API RESTful para gerenciamento financeiro de usuários, construída com **Node.j
 
 ---
 
-## ⚙️ Como rodar o projeto
+# Como rodar o projeto
 
-### Pré-requisitos
+# Pré-requisitos
 
 - [Node.js](https://nodejs.org/) instalado na sua máquina
 - [Git](https://git-scm.com/) instalado
 
-### Passo a passo
+# Passo a passo
 
 ```bash
 # Clone o repositório
@@ -58,16 +58,16 @@ Abra o arquivo `index.html` no navegador para acessar a interface.
 
 ---
 
-## 📡 Endpoints da API
+# Endpoints da API
 
-### Usuários
+# Usuários
 
 | Método | Rota        | Descrição               |
 |--------|-------------|--------------------------|
 | GET    | /usuarios   | Lista todos os usuários  |
 | POST   | /usuarios   | Cadastra um novo usuário |
 
-### Transações
+# Transações
 
 | Método | Rota                        | Descrição                        |
 |--------|-----------------------------|----------------------------------|
@@ -75,7 +75,7 @@ Abra o arquivo `index.html` no navegador para acessar a interface.
 | GET    | /usuarios/:id/transacoes    | Lista transações do usuário      |
 | GET    | /usuarios/:id/saldo         | Retorna o saldo atual do usuário |
 
-### Exemplo de requisição POST `/usuarios`
+# Exemplo de requisição POST `/usuarios`
 
 ```json
 {
@@ -84,7 +84,7 @@ Abra o arquivo `index.html` no navegador para acessar a interface.
 }
 ```
 
-### Exemplo de resposta
+# Exemplo de resposta
 
 ```json
 {
@@ -96,7 +96,7 @@ Abra o arquivo `index.html` no navegador para acessar a interface.
 
 ---
 
-## 👨‍💻 Autor
+# Autor
 
 Feito por **Pedro Jotha**
 
@@ -104,6 +104,6 @@ Feito por **Pedro Jotha**
 
 ---
 
-## 📄 Licença
+# Licença
 
 Este projeto está sob a licença ISC.
