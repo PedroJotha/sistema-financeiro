@@ -2,30 +2,33 @@
 
 API RESTful para gerenciamento financeiro de usuários, construída com **Node.js** e **Express**.
 
+Acesse o sistema: https://pedrojotha.github.io/sistema-financeiro
+
 ---
 
 # Tecnologias
 
-- [cors](https://github.com/expressjs/cors) 
-- [SQLite](https://www.sqlite.org/) 
-- [dotenv](https://github.com/motdotla/dotenv)  
-- [Node.js](https://nodejs.org/) 
-- [Express](https://expressjs.com/) 
-- [Nodemon](https://nodemon.io/) 
-- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3) 
-
+- [cors](https://github.com/expressjs/cors)
+- [bcrypt](https://github.com/kelektiv/node.bcrypt.js)
+- [SQLite](https://www.sqlite.org/)
+- [dotenv](https://github.com/motdotla/dotenv)
+- [Node.js](https://nodejs.org/)
+- [Express](https://expressjs.com/)
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3)
 
 ---
 
 # Funcionalidades
 
-- [x] Cadastro de usuários
-- [x] Listagem de usuários
-- [x] Banco de dados SQLite
-- [x] Interface web (HTML/CSS/JS)
-- [x] Consulta de saldo por usuário
-- [x] Transações financeiras (entrada e saída)
-
+- Autenticação com JWT
+- Painel administrativo
+- Banco de dados SQLite
+- Interface web (HTML/CSS/JS)
+- Consulta de saldo por usuário
+- Transações financeiras (entrada e saída)
+- Cada usuário vê apenas seus próprios dados
+- Cadastro e login de usuários com senha criptografada
 
 ---
 
@@ -62,37 +65,20 @@ Abra o arquivo `index.html` no navegador para acessar a interface.
 
 # Usuários
 
-| Método | Rota        | Descrição               |
-|--------|-------------|--------------------------|
-| GET    | /usuarios   | Lista todos os usuários  |
-| POST   | /usuarios   | Cadastra um novo usuário |
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | /registro | Cadastra um novo usuário |
+| POST | /login | Autentica um usuário |
+| GET | /perfil | Retorna dados do usuário logado |
+| GET | /usuarios | Lista todos os usuários (admin) |
 
 # Transações
 
-| Método | Rota                        | Descrição                        |
-|--------|-----------------------------|----------------------------------|
-| POST   | /usuarios/:id/transacoes    | Adiciona uma transação           |
-| GET    | /usuarios/:id/transacoes    | Lista transações do usuário      |
-| GET    | /usuarios/:id/saldo         | Retorna o saldo atual do usuário |
-
-# Exemplo de requisição POST `/usuarios`
-
-```json
-{
-  "nome": "João Silva",
-  "email": "joao@email.com"
-}
-```
-
-# Exemplo de resposta
-
-```json
-{
-  "id": 1,
-  "nome": "João Silva",
-  "email": "joao@email.com"
-}
-```
+| Método | Rota | Descrição |
+|--------|------|-----------|
+| POST | /usuarios/:id/transacoes | Adiciona uma transação |
+| GET | /usuarios/:id/transacoes | Lista transações do usuário |
+| GET | /usuarios/:id/saldo | Retorna o saldo atual do usuário |
 
 ---
 
@@ -106,4 +92,4 @@ Feito por **Pedro Jotha**
 
 # Licença
 
-Este projeto está sob a licença ISC.
+Este projeto está sob a licença ISC. 
