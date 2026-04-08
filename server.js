@@ -3,16 +3,18 @@ const Database = require("better-sqlite3");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
 app.use(cors());
- 
-const db = new Database("financeiro.db"); 
-const JWT_SECRET = "segredo-do-sistema-financeiro";
-const ADMIN_EMAIL = "admin@sistema.com";
 
-db.exec(` 
+const db = new Database("financeiro.db");
+const JWT_SECRET = process.env.JWT_SECRET;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_SENHA = process.env.ADMIN_SENHA;
+
+db.exec(`
   CREATE TABLE IF NOT EXISTS usuarios (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -34,9 +36,9 @@ db.exec(`
 
 const adminExiste = db.prepare("SELECT * FROM usuarios WHERE email = ?").get(ADMIN_EMAIL);
 if (!adminExiste) {
-  const senhaCriptografada = bcrypt.hashSync("admin123", 10);
+  const senhaCriptografada = bcrypt.hashSync(ADMIN_SENHA, 10);
   db.prepare("INSERT INTO usuarios (nome, email, senha, admin) VALUES (?, ?, ?, ?)").run("Administrador", ADMIN_EMAIL, senhaCriptografada, 1);
-  console.log("Admin criado: email=admin@sistema.com | senha=admin123");
+  console.log("Admin criado: email=" + ADMIN_EMAIL);
 }
 
 function autenticar(req, res, next) {
@@ -77,7 +79,7 @@ app.post("/login", async (req, res) => {
   const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
   if (!senhaCorreta) return res.status(401).json({ erro: "Email ou senha incorretos." });
   const token = jwt.sign({ id: usuario.id, nome: usuario.nome, email: usuario.email, admin: usuario.admin }, JWT_SECRET, { expiresIn: "1d" });
-  res.json({ token, nome: usuario.nome, admin: usuario.admin });
+  res.json({ token, nome: usuario.nome, admin: usuario.admin, id: usuario.id });
 });
 
 app.get("/usuarios", autenticar, apenasAdmin, (req, res) => {
