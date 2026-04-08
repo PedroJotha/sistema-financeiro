@@ -21,14 +21,14 @@ Acesse o sistema: https://pedrojotha.github.io/sistema-financeiro
 
 # Funcionalidades
 
-- Autenticação com JWT
-- Painel administrativo
-- Banco de dados SQLite
-- Interface web (HTML/CSS/JS)
-- Consulta de saldo por usuário
-- Transações financeiras (entrada e saída)
-- Cada usuário vê apenas seus próprios dados
-- Cadastro e login de usuários com senha criptografada
+- Autenticação com JWT 
+- Banco de dados SQLite 
+- Painel administrativo 
+- Interface web (HTML/CSS/JS) 
+- Hospedagem na nuvem (Railway)
+- Consulta de saldo por usuário 
+- Transações financeiras (entrada e saída) 
+- Cadastro e login de usuários com senha criptografada 
 
 ---
 
